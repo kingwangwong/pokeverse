@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 
-function PokemonCard({ url, name }) {
+function PokemonCard({ url, name, filteredPokemons }) {
   const [urldata, seturldata] = useState([])
   // fetch({url}).then((res) => res.json())
   // .then((data) => {
@@ -13,15 +13,18 @@ function PokemonCard({ url, name }) {
       .then((data) => {
         seturldata(data);
       });
-  }, []);
-  console.log(urldata)
+  }, [filteredPokemons]);
+  
   let abilities = urldata.abilities;
+  //console.log(abilities[0].ability.name)
+  // console.log(abilities)
+  //console.log(abilities && abilities.map((a) => a.ability.name))
   return (
     <Card >
-      <Card.Img src={urldata.sprites.back_default} />
+      <Card.Img style={{width: "100px"}} src={urldata.sprites?.front_default} />
       <Card.Body>
         <Card.Title>{urldata.name}</Card.Title>
-        <Card.Text as='div'><ul>{abilities.map((a) => <li>{a.name}</li>)}</ul></Card.Text>
+        <Card.Text as='div'><ul>{abilities && abilities.map((a, index) =>  <li key={index}>{a.ability.name}</li>)}</ul></Card.Text>
 
       </Card.Body>
 
